@@ -1,12 +1,15 @@
 package com.zerobase.fastlms.member.service;
 
+import com.zerobase.fastlms.admin.dto.LoginHistoryDto;
 import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.admin.model.MemberParam;
 import com.zerobase.fastlms.course.model.ServiceResult;
 import com.zerobase.fastlms.member.model.MemberInput;
 import com.zerobase.fastlms.member.model.ResetPasswordInput;
+import com.zerobase.fastlms.member.model.LoginHistoryInput;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MemberService extends UserDetailsService {
@@ -18,6 +21,7 @@ public interface MemberService extends UserDetailsService {
      */
     boolean emailAuth(String uuid);
     
+    
     /**
      * 입력한 이메일로 비밀번호 초기화 정보를 전송
      */
@@ -28,6 +32,11 @@ public interface MemberService extends UserDetailsService {
      * 회원 목록 리턴(관리자에서만 사용 가능)
      */
     List<MemberDto> list(MemberParam parameter);
+
+    /**
+     * 회원 로그인 기록 리턴(관리자에서만 사용 가능)
+     */
+    List<LoginHistoryDto> loginHistory(String userId);
     
     /**
      * 회원 상세 정보
@@ -58,4 +67,10 @@ public interface MemberService extends UserDetailsService {
      * 회원을 탈퇴시켜 주는 로직
      */
     ServiceResult withdraw(String userId, String password);
+
+    /**
+     * 로그인 시 history 기록하고 멤버별 최근 로그인 일자 업데이트하는 로직
+     */
+    boolean recordLoginHistory(LoginHistoryInput parameter);
+
 }
